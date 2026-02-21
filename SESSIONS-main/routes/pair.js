@@ -169,7 +169,7 @@ router.get('/', async (req, res) => {
                         await cleanUpSession();
                     }
                     
-                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+                } else if (connection === "close" && !responseSent && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     console.log("Reconnecting...");
                     await delay(5000);
                     GIFTED_PAIR_CODE();
