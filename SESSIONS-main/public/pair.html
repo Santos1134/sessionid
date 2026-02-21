@@ -245,15 +245,20 @@
             background: var(--background);
         }
 
-        .logo img {
+        .logo-inner {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            object-fit: cover;
             position: relative;
             z-index: 1;
             border: 3px solid var(--primary);
-            box-shadow: 
+            background: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary);
+            box-shadow:
                 0 0 30px var(--primary-glow),
                 inset 0 0 20px rgba(249, 115, 22, 0.1);
         }
@@ -633,7 +638,9 @@
     
     <div class="container">
         <div class="logo">
-            <img src="https://raw.githubusercontent.com/Mayelprince/url/main/menun.jpg" alt="MARK SUMO BOT">
+            <div class="logo-inner">
+                <i class="fas fa-robot"></i>
+            </div>
         </div>
         
         <h1>MARK SUMO BOT</h1>
