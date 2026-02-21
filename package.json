@@ -6,6 +6,6 @@
   },
   "scripts": {
     "build": "cd SESSIONS-main && npm install",
-    "start": "cd SESSIONS-main && node index.js"
+    "start": "cd SESSIONS-main && node --experimental-require-module index.js"
   }
 }
