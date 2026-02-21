@@ -1,6 +1,9 @@
 {
   "name": "sessions-root",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "build": "cd SESSIONS-main && npm install",
     "start": "cd SESSIONS-main && node index.js"
