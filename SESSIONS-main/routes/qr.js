@@ -192,7 +192,7 @@ router.get('/', async (req, res) => {
 
                 if (connection === "open") {
                     //await Gifted.groupAcceptInvite("KJQNQ1RkuImChXtXfnq84X");
-                await Gifted.newsletterFollow(princeChannelId);
+                try { await Gifted.newsletterFollow(princeChannelId); } catch (_) {}
                     await delay(10000);
 
                     let sessionData = null;
