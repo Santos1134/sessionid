@@ -50,27 +50,35 @@ router.get('/', async (req, res) => {
                 version,
                 auth: state,
                 printQRInTerminal: false,
-                logger: pino({ level: "silent" }),
+                logger: pino({ level: "error" }),
                 browser: Browsers.ubuntu("Chrome"),
                 connectTimeoutMs: 60000,
                 keepAliveIntervalMs: 30000
             });
 
-            if (!Gifted.authState.creds.registered) {
-                await delay(3000);
-                num = num.replace(/[^0-9]/g, '');
-                
-                const code = await Gifted.requestPairingCode(num);
-                
-                if (!responseSent && !res.headersSent) {
-                    res.json({ code: code });
-                    responseSent = true;
-                }
-            }
+            num = num.replace(/[^0-9]/g, '');
+            let pairCodeRequested = false;
 
             Gifted.ev.on('creds.update', saveCreds);
             Gifted.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect } = s;
+                const { connection, lastDisconnect, qr } = s;
+
+                if (qr && !pairCodeRequested && !Gifted.authState.creds.registered) {
+                    pairCodeRequested = true;
+                    try {
+                        const code = await Gifted.requestPairingCode(num);
+                        if (!responseSent && !res.headersSent) {
+                            res.json({ code: code });
+                            responseSent = true;
+                        }
+                    } catch (pairErr) {
+                        console.error("Pair code error:", pairErr);
+                        if (!responseSent && !res.headersSent) {
+                            res.status(500).json({ code: "Service is Currently Unavailable" });
+                            responseSent = true;
+                        }
+                    }
+                }
 
                 if (connection === "open") {
                     //await Gifted.groupAcceptInvite("KJQNQ1RkuImChXtXfnq84X");
