@@ -48,24 +48,16 @@ router.get('/', async (req, res) => {
         try {
             let Gifted = giftedConnect({
                 version,
-                auth: {
-                    creds: state.creds,
-                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
-                },
+                auth: state,
                 printQRInTerminal: false,
-                logger: pino({ level: "fatal" }).child({ level: "fatal" }),
-                browser: Browsers.macOS("Safari"),
-                syncFullHistory: false,
-                generateHighQualityLinkPreview: true,
-                shouldIgnoreJid: jid => !!jid?.endsWith('@g.us'),
-                getMessage: async () => undefined,
-                markOnlineOnConnect: true,
-                connectTimeoutMs: 60000, 
+                logger: pino({ level: "silent" }),
+                browser: Browsers.ubuntu("Chrome"),
+                connectTimeoutMs: 60000,
                 keepAliveIntervalMs: 30000
             });
 
             if (!Gifted.authState.creds.registered) {
-                await delay(1500);
+                await delay(3000);
                 num = num.replace(/[^0-9]/g, '');
                 
                 const code = await Gifted.requestPairingCode(num);
