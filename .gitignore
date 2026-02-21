@@ -1,0 +1,5 @@
+node_modules/
+SESSIONS-main/node_modules/
+SESSIONS-main/routes/session/
+*.log
+.env
