@@ -68,8 +68,7 @@ router.get('/', async (req, res) => {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
                 
-                const randomCode = generateRandomCode();
-                const code = await Gifted.requestPairingCode(num, randomCode);
+                const code = await Gifted.requestPairingCode(num);
                 
                 if (!responseSent && !res.headersSent) {
                     res.json({ code: code });
