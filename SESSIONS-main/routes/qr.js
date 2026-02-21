@@ -60,7 +60,7 @@ router.get('/', async (req, res) => {
                             <!DOCTYPE html>
                             <html>
                             <head>
-                                <title>PRINCE-MDX | QR CODE</title>
+                                <title>MARK SUMO BOT | QR CODE</title>
                                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
                                 <style>
                                     body {
@@ -119,7 +119,7 @@ router.get('/', async (req, res) => {
                                         display: inline-block;
                                         padding: 12px 25px;
                                         margin-top: 15px;
-                                        background: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%);
+                                        background: linear-gradient(135deg, #f97316 0%, #facc15 100%);
                                         color: white;
                                         text-decoration: none;
                                         border-radius: 30px;
@@ -164,7 +164,7 @@ router.get('/', async (req, res) => {
                             </head>
                             <body>
                                 <div class="container">
-                                    <h1>PRINCE-MDX QR CODE</h1>
+                                    <h1>MARK SUMO BOT QR CODE</h1>
                                     <div class="qr-container">
                                         <div class="qr-code pulse">
                                             <img src="${qrImage}" alt="QR Code"/>
