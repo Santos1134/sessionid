@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
                 auth: state,
                 printQRInTerminal: false,
                 logger: pino({ level: "error" }),
-                browser: Browsers.ubuntu("Chrome"),
+                browser: Browsers.macOS("Safari"),
                 connectTimeoutMs: 60000,
                 keepAliveIntervalMs: 30000
             });
