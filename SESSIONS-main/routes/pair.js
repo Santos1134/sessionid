@@ -81,15 +81,12 @@ router.get('/', async (req, res) => {
                 }
 
                 if (connection === "open") {
-                    //await Gifted.groupAcceptInvite("KJQNQ1RkuImChXtXfnq84X");
- 
-                    
-                    await delay(10000);
-                    
+                    await delay(3000);
+
                     let sessionData = null;
                     let attempts = 0;
-                    const maxAttempts = 15;
-                    
+                    const maxAttempts = 10;
+
                     while (attempts < maxAttempts && !sessionData) {
                         try {
                             const credsPath = path.join(sessionDir, id, "creds.json");
@@ -100,7 +97,7 @@ router.get('/', async (req, res) => {
                                     break;
                                 }
                             }
-                            await delay(8000);
+                            await delay(2000);
                             attempts++;
                         } catch (readError) {
                             console.error("Read error:", readError);
