@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
                 version,
                 auth: state,
                 printQRInTerminal: false,
-                logger: pino({ level: "error" }),
+                logger: pino({ level: "info" }),
                 browser: Browsers.ubuntu("Chrome"),
                 connectTimeoutMs: 60000,
                 keepAliveIntervalMs: 30000
