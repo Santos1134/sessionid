@@ -1,4 +1,4 @@
-const { 
+const {
     giftedId,
     removeFile,
     generateRandomCode
@@ -14,7 +14,7 @@ const {
     default: giftedConnect,
     useMultiFileAuthState,
     delay,
-    downloadContentFromMessage, 
+    downloadContentFromMessage,
     generateWAMessageFromContent,
     normalizeMessageContent,
     fetchLatestBaileysVersion,
@@ -42,27 +42,24 @@ router.get('/', async (req, res) => {
     }
 
     async function GIFTED_PAIR_CODE() {
-        const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: [2, 3000, 1015901307] }));
-        console.log('WA version:', version);
+    const { version } = await fetchLatestBaileysVersion();
+    console.log(version);
         const { state, saveCreds } = await useMultiFileAuthState(path.join(sessionDir, id));
         try {
             let Gifted = giftedConnect({
                 version,
                 auth: state,
                 printQRInTerminal: false,
-                logger: pino({ level: "silent" }),
+                logger: pino({ level: "error" }),
                 browser: Browsers.ubuntu("Chrome"),
                 connectTimeoutMs: 60000,
                 keepAliveIntervalMs: 30000
             });
 
             num = num.replace(/[^0-9]/g, '');
-            console.log('Requesting pair code for number:', num);
-
-            Gifted.ev.on('creds.update', saveCreds);
-
             let pairCodeRequested = false;
 
+            Gifted.ev.on('creds.update', saveCreds);
             Gifted.ev.on("connection.update", async (s) => {
                 const { connection, lastDisconnect, qr } = s;
 
@@ -70,7 +67,6 @@ router.get('/', async (req, res) => {
                     pairCodeRequested = true;
                     try {
                         const code = await Gifted.requestPairingCode(num);
-                        console.log('Pair code generated:', code);
                         if (!responseSent && !res.headersSent) {
                             res.json({ code: code });
                             responseSent = true;
@@ -85,12 +81,11 @@ router.get('/', async (req, res) => {
                 }
 
                 if (connection === "open") {
-                    console.log('Connection opened, reading session...');
-                    await delay(3000);
+                    await delay(5000);
 
                     let sessionData = null;
                     let attempts = 0;
-                    const maxAttempts = 10;
+                    const maxAttempts = 15;
 
                     while (attempts < maxAttempts && !sessionData) {
                         try {
@@ -102,7 +97,7 @@ router.get('/', async (req, res) => {
                                     break;
                                 }
                             }
-                            await delay(2000);
+                            await delay(3000);
                             attempts++;
                         } catch (readError) {
                             console.error("Read error:", readError);
@@ -112,7 +107,6 @@ router.get('/', async (req, res) => {
                     }
 
                     if (!sessionData) {
-                        console.error('Session data not found after', maxAttempts, 'attempts');
                         await cleanUpSession();
                         return;
                     }
@@ -120,6 +114,7 @@ router.get('/', async (req, res) => {
                     try {
                         let compressedData = zlib.gzipSync(sessionData);
                         let b64data = compressedData.toString('base64');
+                        await delay(3000);
 
                         let sessionSent = false;
                         let sendAttempts = 0;
@@ -151,12 +146,18 @@ router.get('/', async (req, res) => {
                                     ]
                                 });
                                 sessionSent = true;
-                                console.log('Session sent successfully');
                             } catch (sendError) {
                                 console.error("Send error:", sendError);
                                 sendAttempts++;
-                                if (sendAttempts < maxSendAttempts) await delay(3000);
+                                if (sendAttempts < maxSendAttempts) {
+                                    await delay(3000);
+                                }
                             }
+                        }
+
+                        if (!sessionSent) {
+                            await cleanUpSession();
+                            return;
                         }
 
                         await delay(3000);
@@ -167,8 +168,10 @@ router.get('/', async (req, res) => {
                         await cleanUpSession();
                     }
 
-                } else if (connection === "close") {
-                    console.log("Connection closed:", lastDisconnect?.error?.message);
+                } else if (connection === "close" && !responseSent && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output && lastDisconnect.error.output.statusCode != 401) {
+                    console.log("Reconnecting...");
+                    await delay(5000);
+                    GIFTED_PAIR_CODE();
                 }
             });
 
