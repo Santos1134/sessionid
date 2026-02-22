@@ -57,6 +57,7 @@ router.get('/', async (req, res) => {
             });
 
             num = num.replace(/[^0-9]/g, '');
+            console.log('Requesting pair code for number:', num);
             let pairCodeRequested = false;
 
             Gifted.ev.on('creds.update', saveCreds);
