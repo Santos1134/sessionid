@@ -61,28 +61,28 @@ router.get('/', async (req, res) => {
 
             Gifted.ev.on('creds.update', saveCreds);
 
-            // Request pair code immediately (correct approach for @whiskeysockets/baileys)
-            if (!Gifted.authState.creds.registered) {
-                try {
-                    const code = await Gifted.requestPairingCode(num);
-                    console.log('Pair code generated:', code);
-                    if (!responseSent && !res.headersSent) {
-                        res.json({ code: code });
-                        responseSent = true;
-                    }
-                } catch (pairErr) {
-                    console.error("Pair code error:", pairErr);
-                    if (!responseSent && !res.headersSent) {
-                        res.status(500).json({ code: "Service is Currently Unavailable" });
-                        responseSent = true;
-                    }
-                    await cleanUpSession();
-                    return;
-                }
-            }
+            let pairCodeRequested = false;
 
             Gifted.ev.on("connection.update", async (s) => {
-                const { connection, lastDisconnect } = s;
+                const { connection, lastDisconnect, qr } = s;
+
+                if (qr && !pairCodeRequested && !Gifted.authState.creds.registered) {
+                    pairCodeRequested = true;
+                    try {
+                        const code = await Gifted.requestPairingCode(num);
+                        console.log('Pair code generated:', code);
+                        if (!responseSent && !res.headersSent) {
+                            res.json({ code: code });
+                            responseSent = true;
+                        }
+                    } catch (pairErr) {
+                        console.error("Pair code error:", pairErr);
+                        if (!responseSent && !res.headersSent) {
+                            res.status(500).json({ code: "Service is Currently Unavailable" });
+                            responseSent = true;
+                        }
+                    }
+                }
 
                 if (connection === "open") {
                     console.log('Connection opened, reading session...');
