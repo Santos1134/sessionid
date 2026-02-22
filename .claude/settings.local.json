@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Read(//c/Users/sumom/Downloads/PRINCE-V4/**)",
+      "WebFetch(domain:host.princetechn.com)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\sumom\\Downloads\\SESSIONS-main-1\\.git",
+      "C:\\Users\\sumom\\Downloads\\PRINCE-V4\\PRINCE V4\\PRINCE V4",
+      "C:\\Users\\sumom\\Downloads\\MARK-SUMO-PANEL"
+    ]
+  }
+}
