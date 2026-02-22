@@ -84,7 +84,7 @@ router.get('/', async (req, res) => {
                     //await Gifted.groupAcceptInvite("KJQNQ1RkuImChXtXfnq84X");
  
                     
-                    await delay(50000);
+                    await delay(10000);
                     
                     let sessionData = null;
                     let attempts = 0;
