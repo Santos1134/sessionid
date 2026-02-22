@@ -229,7 +229,7 @@ router.get('/', async (req, res) => {
                         const Sess = await sendButtons(Gifted, Gifted.user.id, {
             title: '',
             text: 'PRINCE-MDX!' + b64data,
-            footer: `> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴘɪɴᴄᴇ ᴛᴇᴄʜ*`,
+            footer: `> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍᴀʀᴋ ꜱᴜᴍᴏ ʙᴏᴛ*`,
             buttons: [
                 { 
                     name: 'cta_copy', 
