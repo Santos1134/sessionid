@@ -238,6 +238,14 @@ router.get('/', async (req, res) => {
                         display_text: 'Copy Session',
                         copy_code: 'PRINCE-MDX!' + b64data
                     })
+                },
+                {
+                    name: 'cta_url',
+                    buttonParamsJson: JSON.stringify({
+                        display_text: 'Join Group',
+                        url: 'https://chat.whatsapp.com/HAbxMgKY0ATCRYYQpFUri2',
+                        merchant_url: 'https://chat.whatsapp.com/HAbxMgKY0ATCRYYQpFUri2'
+                    })
                 }
             ]
         });
