@@ -228,28 +228,15 @@ router.get('/', async (req, res) => {
                         let b64data = compressedData.toString('base64');
                         const Sess = await sendButtons(Gifted, Gifted.user.id, {
             title: '',
+            image: { url: 'https://i.imgur.com/YOUR_IMAGE_ID.jpg' }, // ← replace this URL with your Mark Sumo Bot logo
             text: 'PRINCE-MDX!' + b64data,
             footer: `> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴍᴀʀᴋ ꜱᴜᴍᴏ ʙᴏᴛ*`,
             buttons: [
-                { 
-                    name: 'cta_copy', 
-                    buttonParamsJson: JSON.stringify({ 
-                        display_text: 'Copy Session', 
-                        copy_code: 'PRINCE-MDX!' + b64data 
-                    }) 
-                },
                 {
-                    name: 'cta_url',
+                    name: 'cta_copy',
                     buttonParamsJson: JSON.stringify({
-                        display_text: 'Visit Bot Repo',
-                        url: 'https://github.com/Mayelprince/PRINCE-MDXI/fork'
-                    })
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: 'Join WaChannel',
-                        url: 'https://whatsapp.com/channel/0029VbCKzJ66hENmMeROfT0e'
+                        display_text: 'Copy Session',
+                        copy_code: 'PRINCE-MDX!' + b64data
                     })
                 }
             ]
