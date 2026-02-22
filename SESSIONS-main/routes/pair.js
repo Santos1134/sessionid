@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
     }
 
     async function GIFTED_PAIR_CODE() {
-    const { version } = await fetchLatestBaileysVersion();
+    const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: [2, 3000, 1015901307] }));
     console.log(version);
         const { state, saveCreds } = await useMultiFileAuthState(path.join(sessionDir, id));
         try {
@@ -51,7 +51,7 @@ router.get('/', async (req, res) => {
                 auth: state,
                 printQRInTerminal: false,
                 logger: pino({ level: "error" }),
-                browser: Browsers.macOS("Safari"),
+                browser: Browsers.macOS("Desktop"),
                 connectTimeoutMs: 60000,
                 keepAliveIntervalMs: 30000
             });
