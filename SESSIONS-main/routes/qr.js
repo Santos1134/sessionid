@@ -17,8 +17,6 @@ const {
     delay,
     fetchLatestBaileysVersion
 } = require("@whiskeysockets/baileys");
-const princeChannelId = '120363404978384902@newsletter';
-
 const sessionDir = path.join(__dirname, "session");
 
 
@@ -191,8 +189,6 @@ router.get('/', async (req, res) => {
                 }
 
                 if (connection === "open") {
-                    //await Gifted.groupAcceptInvite("KJQNQ1RkuImChXtXfnq84X");
-                try { await Gifted.newsletterFollow(princeChannelId); } catch (_) {}
                     await delay(10000);
 
                     let sessionData = null;
